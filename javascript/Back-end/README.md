@@ -1,6 +1,7 @@
 ## Ignite-nodejs
 
-- [] fundamentos-node
-  - entendendo os fundamentos basicos do Node.js
-- [] primeira-api
-  - Primeira aplicação de node.js
+- Atividades para praticar Node.js do Ignite
+
+## Alura
+
+- Formações da Alura Back-end
