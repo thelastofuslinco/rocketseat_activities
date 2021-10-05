@@ -1,0 +1,13 @@
+
+### Users request
+POST http://localhost:3333/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Lincoln Pinto Duarte",
+    "username": "linquinho"
+}
+
+###
+
+
