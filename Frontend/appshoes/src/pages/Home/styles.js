@@ -23,6 +23,7 @@ export const ProductList = styled.ul`
       line-height: 20px;
       color: #333;
       margin-top: 5px;
+      font-family: 'Roboto', sans-serif;
     }
     > span {
       font-size: 21px;
