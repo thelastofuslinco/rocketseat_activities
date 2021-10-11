@@ -1,7 +1,7 @@
 import React from 'react'
-import { Route, Switch } from 'react-router'
-import Dashboard from './pages/dashboard'
-import Cart from './pages/cart'
+import { Route, Switch } from 'react-router-dom'
+import Dashboard from './pages/Home'
+import Cart from './pages/Cart'
 
 export default function Router () {
   return (
