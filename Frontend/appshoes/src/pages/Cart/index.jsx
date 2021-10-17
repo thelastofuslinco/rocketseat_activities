@@ -5,8 +5,20 @@ import {
   MdRemoveCircleOutline
 } from 'react-icons/md'
 import { Container, ProductTable, Total } from './styles'
+import { connect } from 'react-redux'
+import * as CartActions from '../../store/modules/cart/actions'
+import { bindActionCreators } from 'redux'
+import { formatNumber } from '../../util/format'
 
-export default function Cart () {
+function Cart ({ cart, removeFromCart, total, updateAmount }) {
+  const increment = product => {
+    updateAmount(product.id, product.amount + 1)
+  }
+
+  const decrement = product => {
+    updateAmount(product.id, product.amount - 1)
+  }
+
   return (
     <Container>
       <ProductTable>
@@ -18,39 +30,43 @@ export default function Cart () {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <img
-                src='https://static.netshoes.com.br/produtos/kit-2-sapatenis-ollie-masculino-maldini-conforto/56/K26-0397-256/K26-0397-256_zoom2.jpg?ts=1633008980&ims=326x'
-                alt='Tênis'
-              />
-            </td>
+          {cart.map(product => (
+            <tr>
+              <td>
+                <img src={product.image} alt={product.title} />
+              </td>
 
-            <td>
-              <strong>Tênis muito massa</strong>
-              <span>R$129,90</span>
-            </td>
+              <td>
+                <strong>{product.title}</strong>
+                <span>{product.priceFormatted}</span>
+              </td>
 
-            <td>
-              <div>
-                <button type='button'>
-                  <MdRemoveCircleOutline size={20} color='#7159c1' />
+              <td>
+                <div>
+                  <button type='button' onClick={() => decrement(product)}>
+                    <MdRemoveCircleOutline size={20} color='#7159c1' />
+                  </button>
+                  <input type='number' readOnly value={product.amount} />
+                  <button type='button' onClick={() => increment(product)}>
+                    <MdAddCircleOutline size={20} color='#7159c1' />
+                  </button>
+                </div>
+              </td>
+              <td>
+                <strong>{product.subtotal}</strong>
+              </td>
+              <td>
+                <button
+                  type='button'
+                  onClick={() => {
+                    removeFromCart(product.id)
+                  }}
+                >
+                  <MdDelete size={20} color='#7159c1' />
                 </button>
-                <input type='number' readOnly value={2} />
-                <button type='button'>
-                  <MdAddCircleOutline size={20} color='#7159c1' />
-                </button>
-              </div>
-            </td>
-            <td>
-              <strong>R$258,80</strong>
-            </td>
-            <td>
-              <button type='button'>
-                <MdDelete size={20} color='#7159c1' />
-              </button>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </ProductTable>
 
@@ -58,9 +74,25 @@ export default function Cart () {
         <button type='button'>Finalizar pedido</button>
         <Total>
           <span>TOTAL</span>
-          <strong>R$1920,28</strong>
+          <strong>{total}</strong>
         </Total>
       </footer>
     </Container>
   )
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart.map(product => ({
+    ...product,
+    subtotal: formatNumber(product.amount * product.price)
+  })),
+  total: formatNumber(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount
+    }, 0)
+  )
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)
