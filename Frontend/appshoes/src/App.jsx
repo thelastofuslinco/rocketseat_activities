@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import Header from './components/Header/index.jsx'
 import './config/ReactotronConfig'
 import store from './store/index.js'
+import { ToastContainer } from 'react-toastify'
 
 function App () {
   return (
@@ -14,6 +15,7 @@ function App () {
           <Header />
           <Router />
           <GlobalStyle />
+          <ToastContainer autoClose={3000} />
         </BrowserRouter>
       </Provider>
     </div>

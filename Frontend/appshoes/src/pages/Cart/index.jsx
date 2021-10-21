@@ -10,13 +10,13 @@ import * as CartActions from '../../store/modules/cart/actions'
 import { bindActionCreators } from 'redux'
 import { formatNumber } from '../../util/format'
 
-function Cart ({ cart, removeFromCart, total, updateAmount }) {
+function Cart ({ cart, removeFromCart, total, updateAmountRequest }) {
   const increment = product => {
-    updateAmount(product.id, product.amount + 1)
+    updateAmountRequest(product.id, product.amount + 1)
   }
 
   const decrement = product => {
-    updateAmount(product.id, product.amount - 1)
+    updateAmountRequest(product.id, product.amount - 1)
   }
 
   return (
